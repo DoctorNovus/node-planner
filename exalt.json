@@ -1,0 +1,10 @@
+{
+    "name": "Tasks",
+    "input": "src/index.js",
+    "toolchain": "@exalt/toolchain",
+    "toolchainOptions": {
+        "paths": {
+            "bootstrapcss": "node_modules/bootstrap/dist/css/bootstrap.min.css"
+        }
+    }
+}
