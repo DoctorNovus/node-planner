@@ -27,4 +27,4 @@ Coming Soon...
 ---
 ## Credits
 ---
-Creator: [Daniel Wedding](https://github.com/danieldwedding)
+Creator: [Daniel Wedding](https://github.com/danielwedding)
