@@ -8,23 +8,32 @@ import "../todo-item";
 
 export class TodoManager extends Component {
 
-    actives = super.reactive([]);
-    inactives = super.reactive([]);
+    actives = super.reactive([
+        { id: 0, title: "Tasks to do", date: new Date(), active: true, done: false, host: true },
+        { id: 2, title: "9.4 Quiz", date: new Date(), info: "Quiz is found in Teams.", category: "Chemistry", done: false },
+        { id: 3, title: "Chapter 15 Quiz", date: new Date(), info: "Quiz found in college portal.", category: "Math 122", done: false }
+    ]);
+
+    inactives = super.reactive([
+        { id: 1, title: "Tasks finished", date: new Date(), active: true, done: true, host: true },
+    ]);
 
     render() {
 
         return html`
             <view-today total=${this.inactives.length + this.actives.length} todo=${this.actives.length} />
             <div class="list-group">
-                ${this.actives.map((task, index) => html`<todo-item index=${index} item=${task} onfix=${(e)=>
-                    this.swapItem(e.target, e.item)} ondelete=${(e) =>
-                    this.deleteTask(e.target, e.item)} />`)}
+                ${
+                    this.actives.filter((item) => (!item.done))
+                    .map((item) => html`<todo-item item=${item} onclicked=${() => this.swapItem(item)} ondelete=${() => this.deleteTask(item)} />`)
+                }
             </div>
             <br>
             <div class="list-group">
-                ${this.inactives.map((task, index) => html`<todo-item index=${index} item=${task} onfix=${(e)=>
-                        this.swapItem(e.target, e.item)} ondelete=${(e) =>
-                            this.deleteTask(e.target, e.item)} />`)}
+                ${
+                    this.inactives.filter((item) => (!item.done))
+                    .map((item) => html`<todo-item item=${item} onclicked=${() => this.swapItem(item)} ondelete=${() => this.deleteTask(item)} />`)
+                }
             </div>
             <div id="addBox" class="invisible">
                 <form onsubmit=${(e)=> this.createTask(e)}>
@@ -64,7 +73,7 @@ export class TodoManager extends Component {
         this.root.querySelector("#addBox").classList = "invisible";
     }
 
-    deleteTask(object, item) {
+    deleteTask(item) {
         let ite = this.actives.find(ite => ite.id == item.id);
         let ite2 = this.inactives.find(ite => ite.id == item.id);
 
@@ -77,19 +86,7 @@ export class TodoManager extends Component {
         }
     }
 
-    mount() {
-        this.actives = [
-            { id: 0, title: "Tasks to do", date: new Date(), active: true, done: false, host: true },
-            { id: 2, title: "9.4 Quiz", date: new Date(), info: "Quiz is found in Teams.", category: "Chemistry", done: false },
-            { id: 3, title: "Chapter 15 Quiz", date: new Date(), info: "Quiz found in college portal.", category: "Math 122", done: false }
-        ];
-
-        this.inactives = [
-            { id: 1, title: "Tasks finished", date: new Date(), active: true, done: true, host: true },
-        ]
-    }
-
-    swapItem(object, item) {
+    swapItem(item) {
 
         let ite = this.actives.find(ite => ite.id == item.id);
         let ite2 = this.inactives.find(ite => ite.id == item.id);
